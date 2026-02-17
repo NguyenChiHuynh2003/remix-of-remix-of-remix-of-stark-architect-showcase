@@ -19,7 +19,7 @@ export type Database = {
           amount: number
           category: string
           created_at: string
-          created_by: string
+          created_by: string | null
           description: string | null
           id: string
           project_id: string | null
@@ -28,22 +28,22 @@ export type Database = {
           updated_at: string
         }
         Insert: {
-          amount: number
+          amount?: number
           category: string
           created_at?: string
-          created_by: string
+          created_by?: string | null
           description?: string | null
           id?: string
           project_id?: string | null
           transaction_date?: string
-          transaction_type: string
+          transaction_type?: string
           updated_at?: string
         }
         Update: {
           amount?: number
           category?: string
           created_at?: string
-          created_by?: string
+          created_by?: string | null
           description?: string | null
           id?: string
           project_id?: string | null
@@ -76,12 +76,12 @@ export type Database = {
           id: string
           is_consumed: boolean | null
           project_id: string | null
-          purpose: string
-          quantity: number
+          purpose: string | null
+          quantity: number | null
           remaining_quantity: number | null
           return_condition: string | null
           reusability_percentage: number | null
-          status: Database["public"]["Enums"]["handover_status"]
+          status: string | null
           updated_at: string
         }
         Insert: {
@@ -98,12 +98,12 @@ export type Database = {
           id?: string
           is_consumed?: boolean | null
           project_id?: string | null
-          purpose: string
-          quantity?: number
+          purpose?: string | null
+          quantity?: number | null
           remaining_quantity?: number | null
           return_condition?: string | null
           reusability_percentage?: number | null
-          status?: Database["public"]["Enums"]["handover_status"]
+          status?: string | null
           updated_at?: string
         }
         Update: {
@@ -120,22 +120,15 @@ export type Database = {
           id?: string
           is_consumed?: boolean | null
           project_id?: string | null
-          purpose?: string
-          quantity?: number
+          purpose?: string | null
+          quantity?: number | null
           remaining_quantity?: number | null
           return_condition?: string | null
           reusability_percentage?: number | null
-          status?: Database["public"]["Enums"]["handover_status"]
+          status?: string | null
           updated_at?: string
         }
         Relationships: [
-          {
-            foreignKeyName: "asset_allocations_allocated_by_fkey"
-            columns: ["allocated_by"]
-            isOneToOne: false
-            referencedRelation: "employees"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "asset_allocations_allocated_to_fkey"
             columns: ["allocated_to"]
@@ -161,51 +154,51 @@ export type Database = {
       }
       asset_deletion_history: {
         Row: {
-          asset_id: string
-          asset_name: string
-          asset_type: string
+          asset_id: string | null
+          asset_name: string | null
+          asset_type: string | null
           cost_basis: number | null
           cost_center: string | null
           deleted_at: string
-          deleted_by: string
+          deleted_by: string | null
           deleted_by_name: string | null
           deletion_reason: string | null
           id: string
           original_data: Json | null
           restoration_history: Json | null
-          sku: string
+          sku: string | null
           stock_quantity: number | null
         }
         Insert: {
-          asset_id: string
-          asset_name: string
-          asset_type: string
+          asset_id?: string | null
+          asset_name?: string | null
+          asset_type?: string | null
           cost_basis?: number | null
           cost_center?: string | null
           deleted_at?: string
-          deleted_by: string
+          deleted_by?: string | null
           deleted_by_name?: string | null
           deletion_reason?: string | null
           id?: string
           original_data?: Json | null
           restoration_history?: Json | null
-          sku: string
+          sku?: string | null
           stock_quantity?: number | null
         }
         Update: {
-          asset_id?: string
-          asset_name?: string
-          asset_type?: string
+          asset_id?: string | null
+          asset_name?: string | null
+          asset_type?: string | null
           cost_basis?: number | null
           cost_center?: string | null
           deleted_at?: string
-          deleted_by?: string
+          deleted_by?: string | null
           deleted_by_name?: string | null
           deletion_reason?: string | null
           id?: string
           original_data?: Json | null
           restoration_history?: Json | null
-          sku?: string
+          sku?: string | null
           stock_quantity?: number | null
         }
         Relationships: []
@@ -216,39 +209,36 @@ export type Database = {
           asset_master_id: string
           created_at: string
           disposal_date: string
-          disposal_reason: string
+          disposal_reason: string | null
           gain_loss: number | null
           id: string
-          nbv_at_disposal: number
-          notes: string | null
+          nbv_at_disposal: number | null
           sale_price: number | null
-          updated_at: string
+          updated_at: string | null
         }
         Insert: {
           approved_by?: string | null
           asset_master_id: string
           created_at?: string
           disposal_date?: string
-          disposal_reason: string
+          disposal_reason?: string | null
           gain_loss?: number | null
           id?: string
-          nbv_at_disposal?: number
-          notes?: string | null
+          nbv_at_disposal?: number | null
           sale_price?: number | null
-          updated_at?: string
+          updated_at?: string | null
         }
         Update: {
           approved_by?: string | null
           asset_master_id?: string
           created_at?: string
           disposal_date?: string
-          disposal_reason?: string
+          disposal_reason?: string | null
           gain_loss?: number | null
           id?: string
-          nbv_at_disposal?: number
-          notes?: string | null
+          nbv_at_disposal?: number | null
           sale_price?: number | null
-          updated_at?: string
+          updated_at?: string | null
         }
         Relationships: [
           {
@@ -263,6 +253,7 @@ export type Database = {
       asset_location_history: {
         Row: {
           asset_master_id: string
+          created_at: string
           id: string
           location: string
           moved_by: string | null
@@ -271,6 +262,7 @@ export type Database = {
         }
         Insert: {
           asset_master_id: string
+          created_at?: string
           id?: string
           location: string
           moved_by?: string | null
@@ -279,6 +271,7 @@ export type Database = {
         }
         Update: {
           asset_master_id?: string
+          created_at?: string
           id?: string
           location?: string
           moved_by?: string | null
@@ -299,22 +292,20 @@ export type Database = {
         Row: {
           accumulated_depreciation: number | null
           activation_date: string | null
-          allocated_quantity: number
+          allocated_quantity: number | null
           amortization_period_months: number | null
           asset_id: string
           asset_name: string
-          asset_type: Database["public"]["Enums"]["asset_type"]
+          asset_type: string
           brand: string | null
           closing_quantity: number | null
           closing_value: number | null
-          cost_basis: number
-          cost_center: string
+          cost_basis: number | null
+          cost_center: string | null
           created_at: string
-          created_by: string
-          current_status: Database["public"]["Enums"]["asset_status"]
-          depreciation_method:
-            | Database["public"]["Enums"]["depreciation_method"]
-            | null
+          created_by: string | null
+          current_status: string | null
+          depreciation_method: string | null
           id: string
           inbound_quantity: number | null
           inbound_value: number | null
@@ -330,8 +321,8 @@ export type Database = {
           quantity_per_contract: number | null
           quantity_requested: number | null
           quantity_supplied_previous: number | null
-          sku: string
-          stock_quantity: number
+          sku: string | null
+          stock_quantity: number | null
           total_maintenance_cost: number | null
           unit: string | null
           updated_at: string
@@ -341,22 +332,20 @@ export type Database = {
         Insert: {
           accumulated_depreciation?: number | null
           activation_date?: string | null
-          allocated_quantity?: number
+          allocated_quantity?: number | null
           amortization_period_months?: number | null
           asset_id: string
           asset_name: string
-          asset_type: Database["public"]["Enums"]["asset_type"]
+          asset_type?: string
           brand?: string | null
           closing_quantity?: number | null
           closing_value?: number | null
-          cost_basis?: number
-          cost_center: string
+          cost_basis?: number | null
+          cost_center?: string | null
           created_at?: string
-          created_by: string
-          current_status?: Database["public"]["Enums"]["asset_status"]
-          depreciation_method?:
-            | Database["public"]["Enums"]["depreciation_method"]
-            | null
+          created_by?: string | null
+          current_status?: string | null
+          depreciation_method?: string | null
           id?: string
           inbound_quantity?: number | null
           inbound_value?: number | null
@@ -372,8 +361,8 @@ export type Database = {
           quantity_per_contract?: number | null
           quantity_requested?: number | null
           quantity_supplied_previous?: number | null
-          sku: string
-          stock_quantity?: number
+          sku?: string | null
+          stock_quantity?: number | null
           total_maintenance_cost?: number | null
           unit?: string | null
           updated_at?: string
@@ -383,22 +372,20 @@ export type Database = {
         Update: {
           accumulated_depreciation?: number | null
           activation_date?: string | null
-          allocated_quantity?: number
+          allocated_quantity?: number | null
           amortization_period_months?: number | null
           asset_id?: string
           asset_name?: string
-          asset_type?: Database["public"]["Enums"]["asset_type"]
+          asset_type?: string
           brand?: string | null
           closing_quantity?: number | null
           closing_value?: number | null
-          cost_basis?: number
-          cost_center?: string
+          cost_basis?: number | null
+          cost_center?: string | null
           created_at?: string
-          created_by?: string
-          current_status?: Database["public"]["Enums"]["asset_status"]
-          depreciation_method?:
-            | Database["public"]["Enums"]["depreciation_method"]
-            | null
+          created_by?: string | null
+          current_status?: string | null
+          depreciation_method?: string | null
           id?: string
           inbound_quantity?: number | null
           inbound_value?: number | null
@@ -414,29 +401,21 @@ export type Database = {
           quantity_per_contract?: number | null
           quantity_requested?: number | null
           quantity_supplied_previous?: number | null
-          sku?: string
-          stock_quantity?: number
+          sku?: string | null
+          stock_quantity?: number | null
           total_maintenance_cost?: number | null
           unit?: string | null
           updated_at?: string
           useful_life_months?: number | null
           warehouse_name?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "asset_master_data_inventory_item_id_fkey"
-            columns: ["inventory_item_id"]
-            isOneToOne: false
-            referencedRelation: "inventory_items"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       backup_settings: {
         Row: {
-          backup_hour: number
-          backup_minute: number
-          created_at: string | null
+          backup_hour: number | null
+          backup_minute: number | null
+          created_at: string
           cron_token: string | null
           id: string
           is_enabled: boolean | null
@@ -445,14 +424,14 @@ export type Database = {
           last_backup_file: string | null
           last_backup_status: string | null
           last_scheduled_at: string | null
-          notification_email: string
+          notification_email: string | null
           resend_api_key: string | null
-          updated_at: string | null
+          updated_at: string
         }
         Insert: {
-          backup_hour?: number
-          backup_minute?: number
-          created_at?: string | null
+          backup_hour?: number | null
+          backup_minute?: number | null
+          created_at?: string
           cron_token?: string | null
           id?: string
           is_enabled?: boolean | null
@@ -461,14 +440,14 @@ export type Database = {
           last_backup_file?: string | null
           last_backup_status?: string | null
           last_scheduled_at?: string | null
-          notification_email?: string
+          notification_email?: string | null
           resend_api_key?: string | null
-          updated_at?: string | null
+          updated_at?: string
         }
         Update: {
-          backup_hour?: number
-          backup_minute?: number
-          created_at?: string | null
+          backup_hour?: number | null
+          backup_minute?: number | null
+          created_at?: string
           cron_token?: string | null
           id?: string
           is_enabled?: boolean | null
@@ -477,9 +456,9 @@ export type Database = {
           last_backup_file?: string | null
           last_backup_status?: string | null
           last_scheduled_at?: string | null
-          notification_email?: string
+          notification_email?: string | null
           resend_api_key?: string | null
-          updated_at?: string | null
+          updated_at?: string
         }
         Relationships: []
       }
@@ -489,21 +468,18 @@ export type Database = {
           description: string | null
           id: string
           name: string
-          updated_at: string
         }
         Insert: {
           created_at?: string
           description?: string | null
           id?: string
           name: string
-          updated_at?: string
         }
         Update: {
           created_at?: string
           description?: string | null
           id?: string
           name?: string
-          updated_at?: string
         }
         Relationships: []
       }
@@ -511,46 +487,54 @@ export type Database = {
         Row: {
           assigned_to: string | null
           completion_percentage: number | null
-          created_at: string
-          created_by: string
+          created_at: string | null
+          created_by: string | null
           due_date: string | null
           id: string
-          priority: string
+          priority: string | null
           project_id: string
           requirement_description: string | null
           requirement_title: string
-          status: string
-          updated_at: string
+          status: string | null
+          updated_at: string | null
         }
         Insert: {
           assigned_to?: string | null
           completion_percentage?: number | null
-          created_at?: string
-          created_by: string
+          created_at?: string | null
+          created_by?: string | null
           due_date?: string | null
           id?: string
-          priority?: string
+          priority?: string | null
           project_id: string
           requirement_description?: string | null
           requirement_title: string
-          status?: string
-          updated_at?: string
+          status?: string | null
+          updated_at?: string | null
         }
         Update: {
           assigned_to?: string | null
           completion_percentage?: number | null
-          created_at?: string
-          created_by?: string
+          created_at?: string | null
+          created_by?: string | null
           due_date?: string | null
           id?: string
-          priority?: string
+          priority?: string | null
           project_id?: string
           requirement_description?: string | null
           requirement_title?: string
-          status?: string
-          updated_at?: string
+          status?: string | null
+          updated_at?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "client_requirements_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       contract_guarantees: {
         Row: {
@@ -559,7 +543,7 @@ export type Database = {
           expiry_date: string | null
           guarantee_number: string | null
           guarantee_type: string
-          guarantee_value: number
+          guarantee_value: number | null
           id: string
           issue_date: string | null
           issuing_bank: string | null
@@ -572,7 +556,7 @@ export type Database = {
           expiry_date?: string | null
           guarantee_number?: string | null
           guarantee_type: string
-          guarantee_value?: number
+          guarantee_value?: number | null
           id?: string
           issue_date?: string | null
           issuing_bank?: string | null
@@ -585,7 +569,7 @@ export type Database = {
           expiry_date?: string | null
           guarantee_number?: string | null
           guarantee_type?: string
-          guarantee_value?: number
+          guarantee_value?: number | null
           id?: string
           issue_date?: string | null
           issuing_bank?: string | null
@@ -606,62 +590,49 @@ export type Database = {
         Row: {
           client_name: string
           contract_number: string
-          contract_type: string
-          contract_value: number
+          contract_type: string | null
+          contract_value: number | null
           created_at: string
-          created_by: string
+          created_by: string | null
           effective_date: string | null
           expiry_date: string | null
           id: string
-          is_appendix: boolean
-          parent_contract_id: string | null
-          payment_value: number
+          is_appendix: boolean | null
+          payment_value: number | null
           project_id: string | null
-          status: string
           updated_at: string
         }
         Insert: {
           client_name: string
           contract_number: string
-          contract_type?: string
-          contract_value?: number
+          contract_type?: string | null
+          contract_value?: number | null
           created_at?: string
-          created_by: string
+          created_by?: string | null
           effective_date?: string | null
           expiry_date?: string | null
           id?: string
-          is_appendix?: boolean
-          parent_contract_id?: string | null
-          payment_value?: number
+          is_appendix?: boolean | null
+          payment_value?: number | null
           project_id?: string | null
-          status?: string
           updated_at?: string
         }
         Update: {
           client_name?: string
           contract_number?: string
-          contract_type?: string
-          contract_value?: number
+          contract_type?: string | null
+          contract_value?: number | null
           created_at?: string
-          created_by?: string
+          created_by?: string | null
           effective_date?: string | null
           expiry_date?: string | null
           id?: string
-          is_appendix?: boolean
-          parent_contract_id?: string | null
-          payment_value?: number
+          is_appendix?: boolean | null
+          payment_value?: number | null
           project_id?: string | null
-          status?: string
           updated_at?: string
         }
         Relationships: [
-          {
-            foreignKeyName: "contracts_parent_contract_id_fkey"
-            columns: ["parent_contract_id"]
-            isOneToOne: false
-            referencedRelation: "contracts"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "contracts_project_id_fkey"
             columns: ["project_id"]
@@ -673,33 +644,33 @@ export type Database = {
       }
       depreciation_schedules: {
         Row: {
-          accumulated_depreciation: number
+          accumulated_depreciation: number | null
           asset_master_id: string
           created_at: string
-          depreciation_amount: number
+          depreciation_amount: number | null
           id: string
           is_processed: boolean | null
-          nbv: number
+          nbv: number | null
           period_date: string
         }
         Insert: {
-          accumulated_depreciation?: number
+          accumulated_depreciation?: number | null
           asset_master_id: string
           created_at?: string
-          depreciation_amount?: number
+          depreciation_amount?: number | null
           id?: string
           is_processed?: boolean | null
-          nbv?: number
+          nbv?: number | null
           period_date: string
         }
         Update: {
-          accumulated_depreciation?: number
+          accumulated_depreciation?: number | null
           asset_master_id?: string
           created_at?: string
-          depreciation_amount?: number
+          depreciation_amount?: number | null
           id?: string
           is_processed?: boolean | null
-          nbv?: number
+          nbv?: number | null
           period_date?: string
         }
         Relationships: [
@@ -870,42 +841,42 @@ export type Database = {
           created_at: string
           gin_id: string
           id: string
-          quantity: number
+          quantity: number | null
           return_condition: string | null
           return_date: string | null
           return_notes: string | null
           returned_quantity: number | null
           status: string | null
-          total_cost: number
-          unit_cost: number
+          total_cost: number | null
+          unit_cost: number | null
         }
         Insert: {
           asset_master_id?: string | null
           created_at?: string
           gin_id: string
           id?: string
-          quantity?: number
+          quantity?: number | null
           return_condition?: string | null
           return_date?: string | null
           return_notes?: string | null
           returned_quantity?: number | null
           status?: string | null
-          total_cost?: number
-          unit_cost?: number
+          total_cost?: number | null
+          unit_cost?: number | null
         }
         Update: {
           asset_master_id?: string | null
           created_at?: string
           gin_id?: string
           id?: string
-          quantity?: number
+          quantity?: number | null
           return_condition?: string | null
           return_date?: string | null
           return_notes?: string | null
           returned_quantity?: number | null
           status?: string | null
-          total_cost?: number
-          unit_cost?: number
+          total_cost?: number | null
+          unit_cost?: number | null
         }
         Relationships: [
           {
@@ -927,7 +898,7 @@ export type Database = {
       goods_issue_notes: {
         Row: {
           created_at: string
-          created_by: string
+          created_by: string | null
           gin_number: string
           id: string
           issue_date: string
@@ -935,12 +906,12 @@ export type Database = {
           project_id: string | null
           purpose: string | null
           recipient: string | null
-          total_value: number
+          total_value: number | null
           updated_at: string
         }
         Insert: {
           created_at?: string
-          created_by: string
+          created_by?: string | null
           gin_number: string
           id?: string
           issue_date?: string
@@ -948,12 +919,12 @@ export type Database = {
           project_id?: string | null
           purpose?: string | null
           recipient?: string | null
-          total_value?: number
+          total_value?: number | null
           updated_at?: string
         }
         Update: {
           created_at?: string
-          created_by?: string
+          created_by?: string | null
           gin_number?: string
           id?: string
           issue_date?: string
@@ -961,7 +932,7 @@ export type Database = {
           project_id?: string | null
           purpose?: string | null
           recipient?: string | null
-          total_value?: number
+          total_value?: number | null
           updated_at?: string
         }
         Relationships: [
@@ -977,66 +948,66 @@ export type Database = {
       goods_receipt_notes: {
         Row: {
           created_at: string
-          created_by: string
+          created_by: string | null
           grn_number: string
           id: string
           notes: string | null
           receipt_date: string
           supplier: string | null
-          total_value: number
+          total_value: number | null
           updated_at: string
         }
         Insert: {
           created_at?: string
-          created_by: string
+          created_by?: string | null
           grn_number: string
           id?: string
           notes?: string | null
           receipt_date?: string
           supplier?: string | null
-          total_value?: number
+          total_value?: number | null
           updated_at?: string
         }
         Update: {
           created_at?: string
-          created_by?: string
+          created_by?: string | null
           grn_number?: string
           id?: string
           notes?: string | null
           receipt_date?: string
           supplier?: string | null
-          total_value?: number
+          total_value?: number | null
           updated_at?: string
         }
         Relationships: []
       }
       grn_items: {
         Row: {
-          asset_master_id: string
+          asset_master_id: string | null
           created_at: string
           grn_id: string
           id: string
-          quantity: number
-          total_cost: number
-          unit_cost: number
+          quantity: number | null
+          total_cost: number | null
+          unit_cost: number | null
         }
         Insert: {
-          asset_master_id: string
+          asset_master_id?: string | null
           created_at?: string
           grn_id: string
           id?: string
-          quantity?: number
-          total_cost?: number
-          unit_cost?: number
+          quantity?: number | null
+          total_cost?: number | null
+          unit_cost?: number | null
         }
         Update: {
-          asset_master_id?: string
+          asset_master_id?: string | null
           created_at?: string
           grn_id?: string
           id?: string
-          quantity?: number
-          total_cost?: number
-          unit_cost?: number
+          quantity?: number | null
+          total_cost?: number | null
+          unit_cost?: number | null
         }
         Relationships: [
           {
@@ -1055,48 +1026,10 @@ export type Database = {
           },
         ]
       }
-      handover_slips: {
-        Row: {
-          allocation_id: string
-          created_at: string
-          handover_timestamp: string
-          id: string
-          location: string | null
-          notes: string | null
-          slip_number: string
-        }
-        Insert: {
-          allocation_id: string
-          created_at?: string
-          handover_timestamp?: string
-          id?: string
-          location?: string | null
-          notes?: string | null
-          slip_number: string
-        }
-        Update: {
-          allocation_id?: string
-          created_at?: string
-          handover_timestamp?: string
-          id?: string
-          location?: string | null
-          notes?: string | null
-          slip_number?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "handover_slips_allocation_id_fkey"
-            columns: ["allocation_id"]
-            isOneToOne: false
-            referencedRelation: "asset_allocations"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       inventory_items: {
         Row: {
           brand_id: string | null
-          business_type: Database["public"]["Enums"]["business_type"] | null
+          business_type: string | null
           category_id: string | null
           created_at: string
           id: string
@@ -1106,13 +1039,13 @@ export type Database = {
           product_name: string
           retail_price: number | null
           stock_quantity: number | null
-          unit: string
+          unit: string | null
           updated_at: string
           wholesale_price: number | null
         }
         Insert: {
           brand_id?: string | null
-          business_type?: Database["public"]["Enums"]["business_type"] | null
+          business_type?: string | null
           category_id?: string | null
           created_at?: string
           id?: string
@@ -1122,13 +1055,13 @@ export type Database = {
           product_name: string
           retail_price?: number | null
           stock_quantity?: number | null
-          unit: string
+          unit?: string | null
           updated_at?: string
           wholesale_price?: number | null
         }
         Update: {
           brand_id?: string | null
-          business_type?: Database["public"]["Enums"]["business_type"] | null
+          business_type?: string | null
           category_id?: string | null
           created_at?: string
           id?: string
@@ -1138,27 +1071,27 @@ export type Database = {
           product_name?: string
           retail_price?: number | null
           stock_quantity?: number | null
-          unit?: string
+          unit?: string | null
           updated_at?: string
           wholesale_price?: number | null
         }
         Relationships: [
           {
-            foreignKeyName: "inventory_items_brand_id_fkey"
+            foreignKeyName: "fk_inventory_brand"
             columns: ["brand_id"]
             isOneToOne: false
             referencedRelation: "brands"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "inventory_items_category_id_fkey"
+            foreignKeyName: "fk_inventory_category"
             columns: ["category_id"]
             isOneToOne: false
             referencedRelation: "product_categories"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "inventory_items_product_group_id_fkey"
+            foreignKeyName: "fk_inventory_product_group"
             columns: ["product_group_id"]
             isOneToOne: false
             referencedRelation: "product_groups"
@@ -1169,7 +1102,7 @@ export type Database = {
       maintenance_records: {
         Row: {
           asset_master_id: string
-          cost: number
+          cost: number | null
           created_at: string
           description: string | null
           id: string
@@ -1177,12 +1110,11 @@ export type Database = {
           maintenance_type: string
           performed_by: string | null
           reported_by: string | null
-          updated_at: string
           vendor: string | null
         }
         Insert: {
           asset_master_id: string
-          cost?: number
+          cost?: number | null
           created_at?: string
           description?: string | null
           id?: string
@@ -1190,12 +1122,11 @@ export type Database = {
           maintenance_type: string
           performed_by?: string | null
           reported_by?: string | null
-          updated_at?: string
           vendor?: string | null
         }
         Update: {
           asset_master_id?: string
-          cost?: number
+          cost?: number | null
           created_at?: string
           description?: string | null
           id?: string
@@ -1203,7 +1134,6 @@ export type Database = {
           maintenance_type?: string
           performed_by?: string | null
           reported_by?: string | null
-          updated_at?: string
           vendor?: string | null
         }
         Relationships: [
@@ -1216,113 +1146,66 @@ export type Database = {
           },
         ]
       }
-      materials: {
-        Row: {
-          created_at: string
-          id: string
-          name: string
-          project_id: string
-          quantity: number
-          supplier: string | null
-          unit: string
-          unit_price: number | null
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          id?: string
-          name: string
-          project_id: string
-          quantity: number
-          supplier?: string | null
-          unit: string
-          unit_price?: number | null
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          name?: string
-          project_id?: string
-          quantity?: number
-          supplier?: string | null
-          unit?: string
-          unit_price?: number | null
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "materials_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "projects"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       notifications: {
         Row: {
           created_at: string
           id: string
-          is_read: boolean
-          message: string
+          is_read: boolean | null
+          message: string | null
           reference_id: string | null
           title: string
-          type: string
+          type: string | null
           updated_at: string
-          user_id: string | null
+          user_id: string
         }
         Insert: {
           created_at?: string
           id?: string
-          is_read?: boolean
-          message: string
+          is_read?: boolean | null
+          message?: string | null
           reference_id?: string | null
           title: string
-          type: string
+          type?: string | null
           updated_at?: string
-          user_id?: string | null
+          user_id: string
         }
         Update: {
           created_at?: string
           id?: string
-          is_read?: boolean
-          message?: string
+          is_read?: boolean | null
+          message?: string | null
           reference_id?: string | null
           title?: string
-          type?: string
+          type?: string | null
           updated_at?: string
-          user_id?: string | null
+          user_id?: string
         }
         Relationships: []
       }
       org_chart_connections: {
         Row: {
-          connection_type: string
-          created_at: string
+          connection_type: string | null
+          created_at: string | null
           id: string
           org_chart_id: string
           source_position_id: string
           target_position_id: string
-          updated_at: string
         }
         Insert: {
-          connection_type?: string
-          created_at?: string
+          connection_type?: string | null
+          created_at?: string | null
           id?: string
           org_chart_id: string
           source_position_id: string
           target_position_id: string
-          updated_at?: string
         }
         Update: {
-          connection_type?: string
-          created_at?: string
+          connection_type?: string | null
+          created_at?: string | null
           id?: string
           org_chart_id?: string
           source_position_id?: string
           target_position_id?: string
-          updated_at?: string
         }
         Relationships: [
           {
@@ -1351,63 +1234,44 @@ export type Database = {
       org_chart_positions: {
         Row: {
           color_scheme: string | null
-          created_at: string
-          display_order: number | null
+          created_at: string | null
           employee_id: string | null
           height: number | null
           id: string
           org_chart_id: string
-          parent_position_key: string | null
           position_key: string
           position_title: string
-          updated_at: string
           width: number | null
           x_position: number | null
           y_position: number | null
-          zone: string
         }
         Insert: {
           color_scheme?: string | null
-          created_at?: string
-          display_order?: number | null
+          created_at?: string | null
           employee_id?: string | null
           height?: number | null
           id?: string
           org_chart_id: string
-          parent_position_key?: string | null
           position_key: string
           position_title: string
-          updated_at?: string
           width?: number | null
           x_position?: number | null
           y_position?: number | null
-          zone?: string
         }
         Update: {
           color_scheme?: string | null
-          created_at?: string
-          display_order?: number | null
+          created_at?: string | null
           employee_id?: string | null
           height?: number | null
           id?: string
           org_chart_id?: string
-          parent_position_key?: string | null
           position_key?: string
           position_title?: string
-          updated_at?: string
           width?: number | null
           x_position?: number | null
           y_position?: number | null
-          zone?: string
         }
         Relationships: [
-          {
-            foreignKeyName: "org_chart_positions_employee_id_fkey"
-            columns: ["employee_id"]
-            isOneToOne: false
-            referencedRelation: "employees"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "org_chart_positions_org_chart_id_fkey"
             columns: ["org_chart_id"]
@@ -1419,34 +1283,28 @@ export type Database = {
       }
       organization_charts: {
         Row: {
-          created_at: string
-          created_by: string
+          created_at: string | null
           id: string
           investor: string | null
-          location: string | null
           owner: string | null
           project_id: string | null
-          updated_at: string
+          updated_at: string | null
         }
         Insert: {
-          created_at?: string
-          created_by: string
+          created_at?: string | null
           id?: string
           investor?: string | null
-          location?: string | null
           owner?: string | null
           project_id?: string | null
-          updated_at?: string
+          updated_at?: string | null
         }
         Update: {
-          created_at?: string
-          created_by?: string
+          created_at?: string | null
           id?: string
           investor?: string | null
-          location?: string | null
           owner?: string | null
           project_id?: string | null
-          updated_at?: string
+          updated_at?: string | null
         }
         Relationships: [
           {
@@ -1464,21 +1322,18 @@ export type Database = {
           description: string | null
           id: string
           name: string
-          updated_at: string
         }
         Insert: {
           created_at?: string
           description?: string | null
           id?: string
           name: string
-          updated_at?: string
         }
         Update: {
           created_at?: string
           description?: string | null
           id?: string
           name?: string
-          updated_at?: string
         }
         Relationships: []
       }
@@ -1488,21 +1343,18 @@ export type Database = {
           description: string | null
           id: string
           name: string
-          updated_at: string
         }
         Insert: {
           created_at?: string
           description?: string | null
           id?: string
           name: string
-          updated_at?: string
         }
         Update: {
           created_at?: string
           description?: string | null
           id?: string
           name?: string
-          updated_at?: string
         }
         Relationships: []
       }
@@ -1510,21 +1362,21 @@ export type Database = {
         Row: {
           avatar_url: string | null
           created_at: string
-          full_name: string
+          full_name: string | null
           id: string
           updated_at: string
         }
         Insert: {
           avatar_url?: string | null
           created_at?: string
-          full_name: string
+          full_name?: string | null
           id: string
           updated_at?: string
         }
         Update: {
           avatar_url?: string | null
           created_at?: string
-          full_name?: string
+          full_name?: string | null
           id?: string
           updated_at?: string
         }
@@ -1532,55 +1384,55 @@ export type Database = {
       }
       project_items: {
         Row: {
-          completion_percentage: number
-          created_at: string
+          completion_percentage: number | null
+          created_at: string | null
           created_by: string | null
           description: string | null
           end_date: string | null
           id: string
           item_name: string
           project_id: string
-          quantity: number
+          quantity: number | null
           start_date: string | null
-          status: string
-          total_price: number
-          unit: string
-          unit_price: number
-          updated_at: string
+          status: string | null
+          total_price: number | null
+          unit: string | null
+          unit_price: number | null
+          updated_at: string | null
         }
         Insert: {
-          completion_percentage?: number
-          created_at?: string
+          completion_percentage?: number | null
+          created_at?: string | null
           created_by?: string | null
           description?: string | null
           end_date?: string | null
           id?: string
           item_name: string
           project_id: string
-          quantity?: number
+          quantity?: number | null
           start_date?: string | null
-          status?: string
-          total_price?: number
-          unit?: string
-          unit_price?: number
-          updated_at?: string
+          status?: string | null
+          total_price?: number | null
+          unit?: string | null
+          unit_price?: number | null
+          updated_at?: string | null
         }
         Update: {
-          completion_percentage?: number
-          created_at?: string
+          completion_percentage?: number | null
+          created_at?: string | null
           created_by?: string | null
           description?: string | null
           end_date?: string | null
           id?: string
           item_name?: string
           project_id?: string
-          quantity?: number
+          quantity?: number | null
           start_date?: string | null
-          status?: string
-          total_price?: number
-          unit?: string
-          unit_price?: number
-          updated_at?: string
+          status?: string | null
+          total_price?: number | null
+          unit?: string | null
+          unit_price?: number | null
+          updated_at?: string | null
         }
         Relationships: [
           {
@@ -1594,49 +1446,49 @@ export type Database = {
       }
       project_kpis: {
         Row: {
-          created_at: string
+          created_at: string | null
           created_by: string | null
-          current_value: number
+          current_value: number | null
           description: string | null
           due_date: string | null
           id: string
           kpi_name: string
           project_id: string
-          status: string
-          target_value: number
-          unit: string
-          updated_at: string
-          weight: number
+          status: string | null
+          target_value: number | null
+          unit: string | null
+          updated_at: string | null
+          weight: number | null
         }
         Insert: {
-          created_at?: string
+          created_at?: string | null
           created_by?: string | null
-          current_value?: number
+          current_value?: number | null
           description?: string | null
           due_date?: string | null
           id?: string
           kpi_name: string
           project_id: string
-          status?: string
-          target_value?: number
-          unit?: string
-          updated_at?: string
-          weight?: number
+          status?: string | null
+          target_value?: number | null
+          unit?: string | null
+          updated_at?: string | null
+          weight?: number | null
         }
         Update: {
-          created_at?: string
+          created_at?: string | null
           created_by?: string | null
-          current_value?: number
+          current_value?: number | null
           description?: string | null
           due_date?: string | null
           id?: string
           kpi_name?: string
           project_id?: string
-          status?: string
-          target_value?: number
-          unit?: string
-          updated_at?: string
-          weight?: number
+          status?: string | null
+          target_value?: number | null
+          unit?: string | null
+          updated_at?: string | null
+          weight?: number | null
         }
         Relationships: [
           {
@@ -1652,43 +1504,43 @@ export type Database = {
         Row: {
           budget: number | null
           created_at: string
-          created_by: string
+          created_by: string | null
           description: string | null
           end_date: string | null
           id: string
           location: string | null
           name: string
-          priority: string | null
+          priority: string
           start_date: string | null
-          status: Database["public"]["Enums"]["project_status"]
+          status: string
           updated_at: string
         }
         Insert: {
           budget?: number | null
           created_at?: string
-          created_by: string
+          created_by?: string | null
           description?: string | null
           end_date?: string | null
           id?: string
           location?: string | null
           name: string
-          priority?: string | null
+          priority?: string
           start_date?: string | null
-          status?: Database["public"]["Enums"]["project_status"]
+          status?: string
           updated_at?: string
         }
         Update: {
           budget?: number | null
           created_at?: string
-          created_by?: string
+          created_by?: string | null
           description?: string | null
           end_date?: string | null
           id?: string
           location?: string | null
           name?: string
-          priority?: string | null
+          priority?: string
           start_date?: string | null
-          status?: Database["public"]["Enums"]["project_status"]
+          status?: string
           updated_at?: string
         }
         Relationships: []
@@ -1696,43 +1548,43 @@ export type Database = {
       tasks: {
         Row: {
           assigned_to: string | null
-          completion_percentage: number
+          completion_percentage: number | null
           created_at: string
-          created_by: string
+          created_by: string | null
           description: string | null
           due_date: string | null
           id: string
           priority: string | null
           project_id: string
-          status: Database["public"]["Enums"]["task_status"]
+          status: string
           title: string
           updated_at: string
         }
         Insert: {
           assigned_to?: string | null
-          completion_percentage?: number
+          completion_percentage?: number | null
           created_at?: string
-          created_by: string
+          created_by?: string | null
           description?: string | null
           due_date?: string | null
           id?: string
           priority?: string | null
           project_id: string
-          status?: Database["public"]["Enums"]["task_status"]
+          status?: string
           title: string
           updated_at?: string
         }
         Update: {
           assigned_to?: string | null
-          completion_percentage?: number
+          completion_percentage?: number | null
           created_at?: string
-          created_by?: string
+          created_by?: string | null
           description?: string | null
           due_date?: string | null
           id?: string
           priority?: string | null
           project_id?: string
-          status?: Database["public"]["Enums"]["task_status"]
+          status?: string
           title?: string
           updated_at?: string
         }
@@ -1758,21 +1610,21 @@ export type Database = {
           id: string
           joined_at: string
           project_id: string
-          role: string
+          role: string | null
           user_id: string
         }
         Insert: {
           id?: string
           joined_at?: string
           project_id: string
-          role: string
+          role?: string | null
           user_id: string
         }
         Update: {
           id?: string
           joined_at?: string
           project_id?: string
-          role?: string
+          role?: string | null
           user_id?: string
         }
         Relationships: [
@@ -1787,24 +1639,24 @@ export type Database = {
       }
       user_permissions: {
         Row: {
-          allowed_modules: string[] | null
-          can_edit_modules: string[] | null
+          allowed_modules: Json | null
+          can_edit_modules: Json | null
           created_at: string
           id: string
           updated_at: string
           user_id: string
         }
         Insert: {
-          allowed_modules?: string[] | null
-          can_edit_modules?: string[] | null
+          allowed_modules?: Json | null
+          can_edit_modules?: Json | null
           created_at?: string
           id?: string
           updated_at?: string
           user_id: string
         }
         Update: {
-          allowed_modules?: string[] | null
-          can_edit_modules?: string[] | null
+          allowed_modules?: Json | null
+          can_edit_modules?: Json | null
           created_at?: string
           id?: string
           updated_at?: string
@@ -1865,14 +1717,6 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      can_edit_module: {
-        Args: { _module: string; _user_id: string }
-        Returns: boolean
-      }
-      can_view_module: {
-        Args: { _module: string; _user_id: string }
-        Returns: boolean
-      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -1880,47 +1724,9 @@ export type Database = {
         }
         Returns: boolean
       }
-      is_project_owner: {
-        Args: { _project_id: string; _user_id: string }
-        Returns: boolean
-      }
-      is_team_member: {
-        Args: { _project_id: string; _user_id: string }
-        Returns: boolean
-      }
-      upsert_backup_cron: {
-        Args: {
-          _anon_key: string
-          _base_url: string
-          _enabled: boolean
-          _hour: number
-          _minute: number
-        }
-        Returns: undefined
-      }
-      user_can_access_project: {
-        Args: { _project_id: string; _user_id: string }
-        Returns: boolean
-      }
     }
     Enums: {
       app_role: "admin" | "user" | "accountant" | "hr_admin" | "project_manager"
-      asset_status:
-        | "in_stock"
-        | "active"
-        | "allocated"
-        | "under_maintenance"
-        | "ready_for_reallocation"
-        | "disposed"
-      asset_type: "equipment" | "tools" | "materials"
-      business_type: "wholesale" | "retail" | "both"
-      depreciation_method:
-        | "straight_line"
-        | "declining_balance"
-        | "units_of_production"
-      handover_status: "active" | "returned" | "overdue"
-      project_status: "planning" | "in_progress" | "completed" | "on_hold"
-      task_status: "pending" | "in_progress" | "completed" | "overdue"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -2049,24 +1855,6 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "user", "accountant", "hr_admin", "project_manager"],
-      asset_status: [
-        "in_stock",
-        "active",
-        "allocated",
-        "under_maintenance",
-        "ready_for_reallocation",
-        "disposed",
-      ],
-      asset_type: ["equipment", "tools", "materials"],
-      business_type: ["wholesale", "retail", "both"],
-      depreciation_method: [
-        "straight_line",
-        "declining_balance",
-        "units_of_production",
-      ],
-      handover_status: ["active", "returned", "overdue"],
-      project_status: ["planning", "in_progress", "completed", "on_hold"],
-      task_status: ["pending", "in_progress", "completed", "overdue"],
     },
   },
 } as const
