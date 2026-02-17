@@ -6,6 +6,8 @@ const ALLOWED_ORIGINS = [
   "https://ykqehrfyikflsrgtroto.supabase.co",
   "https://lovable.dev",
   "https://app.lovable.dev",
+  "https://kba2018.vn",
+  "https://www.kba2018.vn",
 ].filter(Boolean);
 
 // Add localhost origins for development
