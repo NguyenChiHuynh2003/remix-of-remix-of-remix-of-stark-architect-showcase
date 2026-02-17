@@ -14,7 +14,7 @@ import * as XLSX from "xlsx";
 import type { Database } from "@/integrations/supabase/types";
 import { sanitizeExcelImport } from "@/lib/excelSanitizer";
 
-type AssetType = Database["public"]["Enums"]["asset_type"];
+type AssetType = string;
 
 interface AssetImportDialogProps {
   open: boolean;

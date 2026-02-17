@@ -90,7 +90,7 @@ export const ProjectTaskDashboard = ({ projectId, projectName = "Website nội b
       if (tasksResult.error) throw tasksResult.error;
       if (employeesResult.error) throw employeesResult.error;
 
-      setTasks(tasksResult.data || []);
+      setTasks((tasksResult.data || []) as Task[]);
       setEmployees(employeesResult.data || []);
     } catch (error) {
       console.error("Error fetching dashboard data:", error);
