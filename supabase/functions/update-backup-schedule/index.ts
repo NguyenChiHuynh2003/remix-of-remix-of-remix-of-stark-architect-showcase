@@ -108,6 +108,27 @@ serve(async (req) => {
 
     console.log("Backup settings saved successfully");
 
+    // Actually create/update the cron job via the database function
+    const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY") || Deno.env.get("SUPABASE_PUBLISHABLE_KEY") || "";
+    const baseUrl = supabaseUrl;
+
+    // Call upsert_backup_cron to schedule/unschedule the pg_cron job
+    // The cron job uses the cron_token for auth (not anon key)
+    const { error: cronError } = await supabase.rpc("upsert_backup_cron", {
+      _hour: utcHour,
+      _minute: minute,
+      _enabled: enabled,
+      _base_url: baseUrl,
+      _anon_key: cronToken!,
+    });
+
+    if (cronError) {
+      console.error("Error setting up cron job:", cronError.message);
+      // Don't fail the whole request - settings are saved
+    } else {
+      console.log(`Cron job ${enabled ? 'scheduled' : 'disabled'} at UTC ${utcHour}:${minute}`);
+    }
+
     return new Response(
       JSON.stringify({ 
         success: true, 
@@ -116,7 +137,7 @@ serve(async (req) => {
         enabled: enabled,
         hour: vietnamHour,
         minute: minute,
-        cronUpdated: false,
+        cronUpdated: !cronError,
       }),
       { 
         status: 200, 
