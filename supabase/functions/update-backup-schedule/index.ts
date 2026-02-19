@@ -106,21 +106,7 @@ serve(async (req) => {
       throw new Error("Missing cron_token in backup_settings");
     }
 
-    // Create/update the actual daily cron job (UTC)
-    const { error: cronError } = await supabase.rpc("upsert_backup_cron", {
-      _hour: utcHour,
-      _minute: minute,
-      _enabled: enabled,
-      _base_url: supabaseUrl,
-      _anon_key: cronToken, // used as the auth token for scheduled invocation
-    });
-
-    if (cronError) {
-      console.error("Error scheduling backup:", cronError);
-      throw new Error(cronError.message);
-    }
-
-    console.log("Backup settings saved and cron schedule updated successfully");
+    console.log("Backup settings saved successfully");
 
     return new Response(
       JSON.stringify({ 
@@ -130,7 +116,7 @@ serve(async (req) => {
         enabled: enabled,
         hour: vietnamHour,
         minute: minute,
-        cronUpdated: true,
+        cronUpdated: false,
       }),
       { 
         status: 200, 
