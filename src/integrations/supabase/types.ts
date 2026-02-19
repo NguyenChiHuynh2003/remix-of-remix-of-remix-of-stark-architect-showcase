@@ -1724,6 +1724,16 @@ export type Database = {
         }
         Returns: boolean
       }
+      upsert_backup_cron: {
+        Args: {
+          _anon_key: string
+          _base_url: string
+          _enabled: boolean
+          _hour: number
+          _minute: number
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       app_role: "admin" | "user" | "accountant" | "hr_admin" | "project_manager"
