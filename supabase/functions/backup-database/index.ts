@@ -16,13 +16,13 @@ const TABLES_TO_BACKUP = [
   
   // Core business tables
   "employees",
+  "employee_contracts",
   "projects",
   "team_members",
   "tasks",
   "project_items",
   "project_kpis",
   "client_requirements",
-  "materials",
   
   // Organization charts
   "organization_charts",
@@ -39,19 +39,21 @@ const TABLES_TO_BACKUP = [
   "asset_allocations",
   "asset_location_history",
   "asset_disposals",
-  "asset_deletion_history", // Added missing table
+  "asset_deletion_history",
   "depreciation_schedules",
   "maintenance_records",
   "goods_receipt_notes",
   "grn_items",
-  "handover_slips",
+  "goods_issue_notes",
+  "gin_items",
   
   // Accounting
   "contracts",
   "contract_guarantees",
   "accounting_transactions",
   
-  // Notifications
+  // Settings & Notifications
+  "backup_settings",
   "notifications",
 ];
 
